@@ -53,7 +53,8 @@ jobs:
           version: 1
       - name: Build tutorial
         run: |
-          mkdir parsed
+          DIR=$(dirname ${{ matrix.tutorial }})
+          mkdir -p parsed/$DIR
           bash .github/workflows/build_tutorial.sh ${{ matrix.tutorial }} > parsed/${{ matrix.tutorial }}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
