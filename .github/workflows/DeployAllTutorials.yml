@@ -52,6 +52,8 @@ jobs:
   deploy:
     needs: tutorial
     runs-on: ubuntu-latest
+    env:
+      PAT: ${{ secrets.JSOTUTORIALS_TOKEN }}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -59,3 +61,29 @@ jobs:
           path: .
       - name: list
         run: ls -R
+      - name: Clone and commit
+        run: |
+          git clone https://$PAT@github.com/JSOTemp/JSOTemp.github.io
+          cp -r artifact/* JSOTemp.github.io/tutorials/
+          cd JSOTemp.github.io
+          git config --global user.email "jsotutorials@no.mail"
+          git config --global user.name "JSOTutorials bot"
+          BRANCH=jsotutorials-$GITHUB_SHA
+          git checkout -b jsotutorials-$GITHUB_SHA $BRANCH
+          git commit -am "[:robot:] Tutorials deployment from $GITHUB_SHA"
+          git push -u origin $BRANCH
+      - name: Create pull request
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.JSOTUTORIALS_TOKEN }}
+          script: |
+            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+            github.request('POST /repos/JSOTemp/JSOTemp.github.io/pulls', {
+              owner: 'JSOTemp',
+              repo: 'JSOTemp.github.io',
+              title: 'Updates from JSOTutorials',
+              body: 'Updates from $GITHUB_SHA',
+              head: 'jsotutorials-$GITHUB_SHA',
+              base: 'main'
+            })
+
