@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 5
       - id: generate
         run: |
           FILES=$(git diff --name-only HEAD~1 | grep jmd)
