@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PAT: '${{ secrets.JSOTUTORIALS_TOKEN }}'
-      BRANCH: 'jsotutorials-${{ github.sha }}'
+      BRANCH: 'jsotutorials-${{ github.event_name }}-${{ github.sha }}'
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
