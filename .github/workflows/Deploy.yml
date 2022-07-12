@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "**/*.jmd"
 
 jobs:
   generate-job-strategy-matrix:
