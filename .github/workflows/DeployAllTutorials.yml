@@ -81,7 +81,7 @@ jobs:
           script: |
             const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
             github.request('POST /repos/JSOTemp/JSOTemp.github.io/pulls', {
-              owner: 'JSOTemp',
+              owner: 'abelsiqueira',
               repo: 'JSOTemp.github.io',
               title: 'Updates from JSOTutorials',
               body: 'Updates from $GITHUB_SHA',
