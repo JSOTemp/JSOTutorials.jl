@@ -4,15 +4,15 @@ author: Abel Soares Siqueira
 ---
 
 ```julia
-using Plots
+# using Plots
 
 x = range(-2, 2, length=20)
 y = sin.(x) * 0.2 + randn(20) * 0.1
-plot(
-  x,
-  y,
-  m = (3, :circle),
-)
+# plot(
+#   x,
+#   y,
+#   m = (3, :circle),
+# )
 ```
 
 ```
