@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PAT: ${{ secrets.JSOTUTORIALS_TOKEN }}
-      BRANCH: jsotutorials-$GITHUB_SHA
+      BRANCH: 'jsotutorials-${{ env.GITHUB_SHA }}'
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -80,12 +80,13 @@ jobs:
           github-token: ${{ secrets.JSOTUTORIALS_TOKEN }}
           script: |
             const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+            const { BRANCH } = process.env
             github.rest.pulls.create({
               owner: 'JSOTemp',
               repo: 'JSOTemp.github.io',
               title: 'Updates from JSOTutorials',
               body: 'Updates from $GITHUB_SHA',
-              head: $BRANCH,
+              head: `${BRANCH}`,
               base: 'main'
             })
 
