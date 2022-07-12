@@ -1,12 +1,13 @@
 #!/bin/bash
 
-if [ ! -f "$0" ];
+ARG=$1
+if [ ! -f "$ARG" ];
 then
-  echo "ERROR: $0 is not a file"
+  echo "ERROR: $ARG is not a file"
 fi
 
-folder=$(dirname "$0")
-file=$(basename "$0")
+folder=$(dirname "$ARG")
+file=$(basename "$ARG")
 
 echo ">> Weaving $file in $folder"
 julia --project -e "using JSOTutorials; JSOTutorials.weave_file($folder, $file)"
