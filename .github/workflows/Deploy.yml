@@ -21,13 +21,13 @@ jobs:
         id: generate
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            MATRIX=$((
+            MATRIX=$( (
               echo '{ "tutorial": ['
               find . -name "*.jmd" | sed -r 's/.\/(.*)/\"\1\"/g' | sed '$!s/$/,/'
               echo ']}'
             ) | jq -c .)
           else
-            MATRIX=$((
+            MATRIX=$( (
               echo '{ "tutorial": ['
               git diff --name-only HEAD HEAD~1 | grep jmd | sed -r 's/.\/(.*)/\"\1\"/g' | sed '$!s/$/,/'
               echo ']}'
