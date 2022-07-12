@@ -22,10 +22,9 @@ jobs:
         run: |
           FILES=$(git diff --name-only HEAD HEAD~1 | grep jmd)
           FILES=$(git diff --name-only HEAD HEAD~1)
-          echo ">>$FILES<<"
-          MATRIX=$(python -c "print('[' + ','.join('''$FILES'''.split()) + ']')")
-          echo $MATRIX
-          echo "::set-output name=job-strategy-matrix::$MATRIX"
+          echo $FILES
+          # MATRIX=$(python -c "print('[' + ','.join('''$FILES'''.split()) + ']')")
+          # echo "::set-output name=job-strategy-matrix::$MATRIX"
 
   tutorial:
     needs: generate-job-strategy-matrix
