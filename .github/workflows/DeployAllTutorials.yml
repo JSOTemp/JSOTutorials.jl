@@ -52,9 +52,6 @@ jobs:
   deploy:
     needs: tutorial
     runs-on: ubuntu-latest
-    env:
-      PAT: ${{ secrets.JSOTUTORIALS_TOKEN }}
-      BRANCH: 'jsotutorials-${{ env.GITHUB_SHA }}'
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -76,6 +73,9 @@ jobs:
           git push -u origin $BRANCH
       - name: Create pull request
         uses: actions/github-script@v6
+        env:
+          PAT: '${{ secrets.JSOTUTORIALS_TOKEN }}'
+          BRANCH: 'jsotutorials-${{ env.GITHUB_SHA }}'
         with:
           github-token: ${{ secrets.JSOTUTORIALS_TOKEN }}
           script: |
