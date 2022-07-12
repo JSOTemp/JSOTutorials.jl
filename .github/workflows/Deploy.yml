@@ -1,0 +1,26 @@
+name: Deploy tutorials
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-job-strategy-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      job-strategy-matrix: ${{ steps.generate.outputs.job-strategy-matrix }}
+    steps:
+      - id: generate
+        run: |
+          FILES=$(git diff --name-only HEAD~1 | grep jmd)
+          MATRIX=python -c "print('[' + ','.join('''$FILES'''.split()) + ']')"
+          echo "::set-output name=job-strategy-matrix::$MATRIX"
+
+  tutorial:
+    needs: generate-job-strategy-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        job: ${{ fromJson(needs.generate-job-strategy-matrix.outputss.job-strategy-matrix) }}
+    steps:
+      - run: echo "Job >>${{ matrix.job }}<<"
