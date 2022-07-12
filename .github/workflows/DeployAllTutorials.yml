@@ -54,6 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PAT: ${{ secrets.JSOTUTORIALS_TOKEN }}
+      BRANCH: jsotutorials-$GITHUB_SHA
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -68,7 +69,6 @@ jobs:
           cd JSOTemp.github.io
           git config --global user.email "jsotutorials@no.mail"
           git config --global user.name "JSOTutorials bot"
-          BRANCH=jsotutorials-$GITHUB_SHA
           echo $PAT
           git checkout -b $BRANCH
           git add tutorials
@@ -80,14 +80,12 @@ jobs:
           github-token: ${{ secrets.JSOTUTORIALS_TOKEN }}
           script: |
             const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
-            console.log(owner)
-            console.log(repo)
             github.rest.pulls.create({
               owner: 'JSOTemp',
               repo: 'JSOTemp.github.io',
               title: 'Updates from JSOTutorials',
               body: 'Updates from $GITHUB_SHA',
-              head: 'jsotutorials-$GITHUB_SHA',
+              head: $BRANCH,
               base: 'main'
             })
 
