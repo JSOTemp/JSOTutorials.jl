@@ -71,6 +71,7 @@ jobs:
           BRANCH=jsotutorials-$GITHUB_SHA
           echo $PAT
           git checkout -b $BRANCH
+          git add tutorials
           git commit -am "[:robot:] Tutorials deployment from $GITHUB_SHA"
           git push -u origin $BRANCH
       - name: Create pull request
