@@ -18,25 +18,23 @@ jobs:
         with:
           fetch-depth: 5
       - name: Prepare file for all tutorials
-        if: ${{ github.event_name }} == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch'
         run: |
           MATRIX=$((
             echo '{ "tutorial": ['
             find . -name "*.jmd" | sed -r 's/.\/(.*)/\"\1\"/g' | sed '$!s/$/,/'
             echo ']}'
           ) | jq -c .)
-          echo $MATRIX
           echo $MATRIX | jq .
           echo "::set-output name=job-strategy-matrix::$MATRIX"
       - name: Prepare file for changed tutorials
-        if: ${{ github.event_name }} == 'push'
+        if: github.event_name == 'push'
         run: |
           MATRIX=$((
             echo '{ "tutorial": ['
             git diff --name-only HEAD HEAD~1 | grep jmd | sed -r 's/(.*)/\"\1\"/g' | sed '$!s/$/,/'
             echo ']}'
           ) | jq -c .)
-          echo $MATRIX
           echo $MATRIX | jq .
           echo "::set-output name=job-strategy-matrix::$MATRIX"
 
