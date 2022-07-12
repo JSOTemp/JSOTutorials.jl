@@ -42,7 +42,12 @@ jobs:
         uses: julia-actions/setup-julia@v1
         with:
           version: 1
-      - run: |
-          pwd
-          ls
-          bash .github/workflows/build_tutorial.sh ${{ matrix.tutorial }}
+      - name: Build tutorial
+        run: bash .github/workflows/build_tutorial.sh ${{ matrix.tutorial }}
+
+  deploy:
+    needs: tutorial
+    runs-on: ubuntu-latest
+    steps:
+      - name: push
+        run: echo push
