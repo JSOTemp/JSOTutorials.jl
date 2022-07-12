@@ -80,6 +80,8 @@ jobs:
           github-token: ${{ secrets.JSOTUTORIALS_TOKEN }}
           script: |
             const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+            console.log(owner)
+            console.log(repo)
             github.rest.pulls.create({
               owner: 'JSOTemp',
               repo: 'JSOTemp.github.io',
