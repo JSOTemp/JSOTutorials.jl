@@ -20,16 +20,19 @@ jobs:
       - name: generate for all
         id: generate
         run: |
-          if [[ $GITHUB_EVENT_NAME == 'workflow_dispatch' ]]; then
-            FILES=$(find . -name "*.jmd")
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            MATRIX=$((
+              echo '{ "tutorial": ['
+              find . -name "*.jmd" | sed -r 's/.\/(.*)/\"\1\"/g' | sed '$!s/$/,/'
+              echo ']}'
+            ) | jq -c .)
           else
-            FILES=$(git diff --name-only HEAD HEAD~1 | grep jmd)
+            MATRIX=$((
+              echo '{ "tutorial": ['
+              git diff --name-only HEAD HEAD~1 | grep jmd | sed -r 's/.\/(.*)/\"\1\"/g' | sed '$!s/$/,/'
+              echo ']}'
+            ) | jq -c .)
           fi
-          MATRIX=$((
-            echo '{ "tutorial": ['
-            echo $FILES | sed -r 's/.\/(.*)/\"\1\"/g' | sed '$!s/$/,/'
-            echo ']}'
-          ) | jq -c .)
           echo $MATRIX
           echo $MATRIX | jq .
           echo "::set-output name=job-strategy-matrix::$MATRIX"
