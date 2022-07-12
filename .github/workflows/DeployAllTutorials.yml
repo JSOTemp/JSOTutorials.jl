@@ -56,6 +56,8 @@ jobs:
       PAT: '${{ secrets.JSOTUTORIALS_TOKEN }}'
       BRANCH: 'jsotutorials-${{ github.sha }}'
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
@@ -63,30 +65,13 @@ jobs:
       - name: list
         run: ls -R
       - name: Clone and commit
-        run: |
-          git clone https://abelsiqueira:$PAT@github.com/JSOTemp/JSOTemp.github.io
-          cp -r artifact/* JSOTemp.github.io/tutorials/
-          cd JSOTemp.github.io
-          git config --global user.email "jsotutorials@no.mail"
-          git config --global user.name "JSOTutorials bot"
-          echo $PAT
-          git checkout -b $BRANCH
-          git add tutorials
-          git commit -am "[:robot:] Tutorials deployment from $GITHUB_SHA"
-          git push -u origin $BRANCH
+        run: bash .github/workflows/clone_and_commit.sh
       - name: Create pull request
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.JSOTUTORIALS_TOKEN }}
           script: |
-            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
-            const { BRANCH } = process.env
-            github.rest.pulls.create({
-              owner: 'JSOTemp',
-              repo: 'JSOTemp.github.io',
-              title: 'Updates from JSOTutorials',
-              body: 'Updates from $GITHUB_SHA',
-              head: `${BRANCH}`,
-              base: 'main'
-            })
+            const script = require('.github/workflows/pull_requests.js')
+            console.log(script({github, context}))
+
 
