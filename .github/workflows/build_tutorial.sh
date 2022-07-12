@@ -8,7 +8,7 @@ fi
 folder=$(dirname "$0")
 file=$(basename "$0")
 
-echo ">> Weaving $0"
+echo ">> Weaving $file in $folder"
 julia --project -e "using JSOTutorials; JSOTutorials.weave_file($folder, $file)"
 
 # git clone https://github.com/JSOTemp/JSOTemp.github.io
