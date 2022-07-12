@@ -69,7 +69,8 @@ jobs:
           git config --global user.email "jsotutorials@no.mail"
           git config --global user.name "JSOTutorials bot"
           BRANCH=jsotutorials-$GITHUB_SHA
-          git checkout -b jsotutorials-$GITHUB_SHA $BRANCH
+          echo $PAT
+          git checkout -b $BRANCH
           git commit -am "[:robot:] Tutorials deployment from $GITHUB_SHA"
           git push -u origin $BRANCH
       - name: Create pull request
