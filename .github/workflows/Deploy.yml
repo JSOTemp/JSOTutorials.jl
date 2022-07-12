@@ -20,7 +20,7 @@ jobs:
       - id: generate
         name: generate
         run: |
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+          if [[ $GITHUB_EVENT_NAME == 'workflow_dispatch' ]]; then
             FILES=$(find . -name "*.jmd")
           else
             FILES=$(git diff --name-only HEAD HEAD~1 | grep jmd)
