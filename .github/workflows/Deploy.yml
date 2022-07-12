@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 5
       - name: Prepare file for all tutorials
-        id: generate_all
+        id: generate
         if: github.event_name == 'workflow_dispatch'
         run: |
           MATRIX=$((
@@ -29,7 +29,7 @@ jobs:
           echo $MATRIX | jq .
           echo "::set-output name=job-strategy-matrix::$MATRIX"
       - name: Prepare file for changed tutorials
-        id: generate_changed
+        id: generate
         if: github.event_name == 'push'
         run: |
           MATRIX=$((
