@@ -52,11 +52,13 @@ jobs:
         with:
           version: 1
       - name: Build tutorial
-        run: bash .github/workflows/build_tutorial.sh ${{ matrix.tutorial }}
+        run: |
+          mkdir parsed
+          bash .github/workflows/build_tutorial.sh ${{ matrix.tutorial }} > parsed/${{ matrix.tutorial }}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          path: markdown/*
+          path: parsed/*
 
   deploy:
     needs: tutorial
