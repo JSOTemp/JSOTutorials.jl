@@ -63,7 +63,7 @@ jobs:
         run: ls -R
       - name: Clone and commit
         run: |
-          git clone https://JSOTemp:$PAT@github.com/JSOTemp/JSOTemp.github.io
+          git clone https://abelsiqueira:$PAT@github.com/JSOTemp/JSOTemp.github.io
           cp -r artifact/* JSOTemp.github.io/tutorials/
           cd JSOTemp.github.io
           git config --global user.email "jsotutorials@no.mail"
