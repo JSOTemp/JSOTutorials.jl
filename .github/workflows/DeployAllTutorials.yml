@@ -44,10 +44,18 @@ jobs:
           version: 1
       - name: Build tutorial
         run: bash .github/workflows/build_tutorial.sh ${{ matrix.tutorial }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: markdown/*
 
   deploy:
     needs: tutorial
     runs-on: ubuntu-latest
     steps:
-      - name: push
-        run: echo push
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          path: .
+      - name: list
+        run: ls -R
