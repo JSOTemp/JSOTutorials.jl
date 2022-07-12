@@ -1,4 +1,4 @@
-name: Deploy tutorials
+name: Deploy tutorials selectively
 on:
   push:
     branches:
