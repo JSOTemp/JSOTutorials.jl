@@ -5,6 +5,7 @@ author: Abel Soares Siqueira
 
 This is a simple example.
 
+
 $$f(x) = x^2 - 5x + 6$$
 
 ```julia
