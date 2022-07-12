@@ -80,7 +80,7 @@ jobs:
           github-token: ${{ secrets.JSOTUTORIALS_TOKEN }}
           script: |
             const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
-            github.request('POST /repos/JSOTemp/JSOTemp.github.io/pulls', {
+            github.rest.pulls.create({
               owner: 'abelsiqueira',
               repo: 'JSOTemp/JSOTemp.github.io',
               title: 'Updates from JSOTutorials',
