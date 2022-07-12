@@ -81,8 +81,8 @@ jobs:
           script: |
             const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
             github.rest.pulls.create({
-              owner: 'abelsiqueira',
-              repo: 'JSOTemp/JSOTemp.github.io',
+              owner: 'JSOTemp',
+              repo: 'JSOTemp.github.io',
               title: 'Updates from JSOTutorials',
               body: 'Updates from $GITHUB_SHA',
               head: 'jsotutorials-$GITHUB_SHA',
