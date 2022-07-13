@@ -12,6 +12,7 @@ file=$(basename "$FILE")
 
 folder_without_tutorial_prefix=$(echo $folder | cut -d'/' -f2-)
 file_change_suffix=$(basename -s .jmd $file).md
+MD_FILE=markdown/$folder_without_tutorial_prefix/$file_change_suffix
 OUTPUT_FILE=parsed/$folder_without_tutorial_prefix/$file_change_suffix
 mkdir -p $(dirname $OUTPUT_FILE)
 
@@ -23,43 +24,5 @@ using JSOTutorials;
 folder = split(\"$folder\", \"/\")[2:end] # to remove tutorials prefix;
 folder = join(folder, \"/\");
 JSOTutorials.weave_file(folder, \"$file\")
+JSOTutorials.parse_markdown_into_franklin(\"$MD_FILE\", \"$OUTPUT_FILE\")
 """
-
-### Parse the jmd for the header
-tags="[]"
-yaml_count=0
-while read -r line
-do
-  if [[ "$line" == "---" ]]; then
-    yaml_count=$(($yaml_count + 1))
-    if [ $yaml_count == 2 ]; then
-      break
-    fi
-    continue
-  fi
-  KEY=$(echo $line | awk -F': ' '{ print $1 }')
-  VALUE=$(echo $line | awk -F': ' '{ print $2 }')
-  printf -v "$KEY" "%s" "$VALUE"
-done < $FILE
-
-echo """@def title = \"$title\"
-@def showall = true
-@def tags = $tags
-
-\preamble{$author}
-""" > $OUTPUT_FILE
-
-
-### Parse the resulting md for the body
-MD_FILE=markdown/$folder_without_tutorial_prefix/$file_change_suffix
-yaml_count=0
-while read -r line
-do
-  if [[ "$line" == "---" ]]; then
-    yaml_count=$(($yaml_count + 1))
-    continue
-  fi
-  if [ $yaml_count == 2 ]; then
-    echo $line >> $OUTPUT_FILE
-  fi
-done < $MD_FILE
