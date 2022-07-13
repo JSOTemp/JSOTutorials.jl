@@ -1,6 +1,7 @@
 #!/bin/bash
 
 FILE=$1
+OUTPUT_FILE=$2
 if [ ! -f "$FILE" ];
 then
   echo "ERROR: $FILE is not a file"
@@ -41,7 +42,7 @@ echo """@def title = \"$title\"
 @def tags = $tags
 
 \preamble{$author}
-"""
+""" > $OUTPUT_FILE
 
 yaml_count=0
 while read -r line
@@ -51,6 +52,6 @@ do
     continue
   fi
   if [ $yaml_count == 2 ]; then
-    echo $line
+    echo $line >> $OUTPUT_FILE
   fi
 done < $FILE
