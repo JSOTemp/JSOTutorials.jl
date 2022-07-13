@@ -1,7 +1,6 @@
 #!/bin/bash
 
 FILE=$1
-OUTPUT_FILE=$2
 if [ ! -f "$FILE" ];
 then
   echo "ERROR: $FILE is not a file"
@@ -10,6 +9,11 @@ fi
 
 folder=$(dirname "$FILE")
 file=$(basename "$FILE")
+
+folder_without_tutorial_prefix=$(echo $folder | cut -d'/' -f2-)
+file_change_suffix=$(basename -s .jmd $file).md
+OUTPUT_FILE=parsed/$folder_without_tutorial_prefix/$file_change_suffix
+mkdir -p $(dirname $OUTPUT_FILE)
 
 echo ">> Weaving $file in $folder"
 julia --project -e """

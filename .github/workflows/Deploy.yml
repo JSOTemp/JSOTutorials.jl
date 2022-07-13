@@ -53,9 +53,7 @@ jobs:
           version: 1
       - name: Build tutorial
         run: |
-          PARSED_FILE=$(echo ${{ matrix.tutorial }} | cut -d'/' -f2-)
-          mkdir -p $(basename parsed/$PARSED_FILE)
-          bash .github/workflows/build_tutorial.sh ${{ matrix.tutorial }} parsed/$PARSED_FILE
+          bash .github/workflows/build_tutorial.sh ${{ matrix.tutorial }}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
