@@ -145,7 +145,7 @@ function parse_markdown_into_franklin(infile, outfile)
 
   open(outfile, "w") do io
     println(io, """
-    @def title = "$(yaml["title"])
+    @def title = "$(yaml["title"])"
     @def showall = true
     @def tags = "$(yaml["tags"])
 
