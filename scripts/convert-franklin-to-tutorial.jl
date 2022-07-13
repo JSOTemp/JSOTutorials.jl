@@ -10,7 +10,7 @@ repos = [
   "introduction-to-quadraticmodels",
   "introduction-to-ripqp",
   "solve-an-optimization-problem-with-ipopt",
-  "solve-pdenlpmodels-with-jsosolvers",
+  # "solve-pdenlpmodels-with-jsosolvers",
 ]
 
 for repo in repos
