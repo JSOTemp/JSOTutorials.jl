@@ -25,6 +25,7 @@ folder = join(folder, \"/\");
 JSOTutorials.weave_file(folder, \"$file\")
 """
 
+### Parse the jmd for the header
 tags="[]"
 yaml_count=0
 while read -r line
@@ -48,6 +49,9 @@ echo """@def title = \"$title\"
 \preamble{$author}
 """ > $OUTPUT_FILE
 
+
+### Parse the resulting md for the body
+MD_FILE=markdown/$folder_without_tutorial_prefix/$file_change_suffix
 yaml_count=0
 while read -r line
 do
@@ -58,4 +62,4 @@ do
   if [ $yaml_count == 2 ]; then
     echo $line >> $OUTPUT_FILE
   fi
-done < $FILE
+done < $MD_FILE
